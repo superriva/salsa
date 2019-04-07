@@ -13,6 +13,8 @@ pub use crate::derived::DependencyStorage;
 pub use crate::derived::MemoizedStorage;
 pub use crate::derived::VolatileStorage;
 pub use crate::input::InputStorage;
+pub use crate::interned::InternedStorage;
+pub use crate::interned::LookupInternedStorage;
 pub use crate::runtime::Revision;
 
 pub struct CycleDetected;
@@ -49,7 +51,7 @@ pub trait QueryStorageMassOps<DB: Database> {
     fn sweep(&self, db: &DB, strategy: SweepStrategy);
 }
 
-pub trait DatabaseKey<DB>: Clone + Debug + Eq + Hash + Send + Sync {
+pub trait DatabaseKey<DB>: Clone + Debug + Eq + Hash {
     /// Returns true if the value of this query may have changed since
     /// the given revision.
     fn maybe_changed_since(&self, db: &DB, revision: Revision) -> bool;
